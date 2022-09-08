@@ -38,11 +38,18 @@ class Item extends StatelessWidget {
         children: <Widget>[
           SizedBox(width: leadingPadding),
           _Flag(
-              country: country,
-              showFlag: showFlag,
-              useEmoji: useEmoji,
-              decoration: flagDecoration),
-          SizedBox(width: 12.0),
+            country: country,
+            showFlag: showFlag,
+            useEmoji: useEmoji,
+            decoration: flagDecoration,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Icon(
+              Icons.arrow_drop_down_outlined,
+              color: textStyle?.color,
+            ),
+          ),
           Text(
             '$dialCode',
             textDirection: TextDirection.ltr,
@@ -73,6 +80,9 @@ class _Flag extends StatelessWidget {
     return country != null && showFlag!
         ? Container(
             decoration: decoration,
+            height: 24,
+            width: 24,
+            clipBehavior: Clip.hardEdge,
             child: useEmoji!
                 ? Text(
                     Utils.generateFlagEmojiUnicode(country?.alpha2Code ?? ''),
@@ -80,7 +90,7 @@ class _Flag extends StatelessWidget {
                   )
                 : Image.asset(
                     country!.flagUri,
-                    width: 32.0,
+                    fit: BoxFit.fill,
                     package: 'intl_phone_number_input',
                     errorBuilder: (context, error, stackTrace) {
                       return SizedBox.shrink();
