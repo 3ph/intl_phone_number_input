@@ -48,6 +48,7 @@ class SelectorButton extends StatelessWidget {
                     leadingPadding: selectorConfig.leadingPadding,
                     trailingSpace: selectorConfig.trailingSpace,
                     textStyle: selectorTextStyle,
+                    flagDecoration: selectorConfig.flagDecoration,
                   ),
                   value: country,
                   items: mapCountryToDropdownItem(countries),
@@ -93,6 +94,7 @@ class SelectorButton extends StatelessWidget {
                 leadingPadding: selectorConfig.leadingPadding,
                 trailingSpace: selectorConfig.trailingSpace,
                 textStyle: selectorTextStyle,
+                flagDecoration: selectorConfig.flagDecoration,
               ),
             ),
           );
