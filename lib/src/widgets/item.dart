@@ -11,6 +11,7 @@ class Item extends StatelessWidget {
   final bool withCountryNames;
   final double? leadingPadding;
   final bool trailingSpace;
+  final BoxDecoration? flagDecoration;
 
   const Item({
     Key? key,
@@ -21,6 +22,7 @@ class Item extends StatelessWidget {
     this.withCountryNames = false,
     this.leadingPadding = 12,
     this.trailingSpace = true,
+    this.flagDecoration,
   }) : super(key: key);
 
   @override
@@ -36,10 +38,10 @@ class Item extends StatelessWidget {
         children: <Widget>[
           SizedBox(width: leadingPadding),
           _Flag(
-            country: country,
-            showFlag: showFlag,
-            useEmoji: useEmoji,
-          ),
+              country: country,
+              showFlag: showFlag,
+              useEmoji: useEmoji,
+              decoration: flagDecoration),
           SizedBox(width: 12.0),
           Text(
             '$dialCode',
@@ -56,14 +58,21 @@ class _Flag extends StatelessWidget {
   final Country? country;
   final bool? showFlag;
   final bool? useEmoji;
+  final BoxDecoration? decoration;
 
-  const _Flag({Key? key, this.country, this.showFlag, this.useEmoji})
-      : super(key: key);
+  const _Flag({
+    Key? key,
+    this.country,
+    this.showFlag,
+    this.useEmoji,
+    this.decoration,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return country != null && showFlag!
         ? Container(
+            decoration: decoration,
             child: useEmoji!
                 ? Text(
                     Utils.generateFlagEmojiUnicode(country?.alpha2Code ?? ''),
