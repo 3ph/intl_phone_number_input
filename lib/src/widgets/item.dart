@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:intl_phone_number_input/src/models/country_model.dart';
 import 'package:intl_phone_number_input/src/utils/util.dart';
 
@@ -12,6 +13,7 @@ class Item extends StatelessWidget {
   final double? leadingPadding;
   final bool trailingSpace;
   final BoxDecoration? flagDecoration;
+  final SelectorButtonItemBuilder? itemBuilder;
 
   const Item({
     Key? key,
@@ -23,10 +25,14 @@ class Item extends StatelessWidget {
     this.leadingPadding = 12,
     this.trailingSpace = true,
     this.flagDecoration,
+    this.itemBuilder,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (itemBuilder != null && country != null)
+      return itemBuilder!.call(country!);
+
     String dialCode = (country?.dialCode ?? '');
     if (trailingSpace) {
       dialCode = dialCode.padRight(5, "   ");

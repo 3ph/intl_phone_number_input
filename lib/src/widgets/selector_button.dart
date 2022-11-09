@@ -6,6 +6,8 @@ import 'package:intl_phone_number_input/src/widgets/countries_search_list_widget
 import 'package:intl_phone_number_input/src/widgets/input_widget.dart';
 import 'package:intl_phone_number_input/src/widgets/item.dart';
 
+typedef SelectorButtonItemBuilder = Widget Function(Country country);
+
 /// [SelectorButton]
 class SelectorButton extends StatelessWidget {
   final List<Country> countries;
@@ -19,6 +21,7 @@ class SelectorButton extends StatelessWidget {
   final bool isScrollControlled;
 
   final ValueChanged<Country?> onCountryChanged;
+  final SelectorButtonItemBuilder? itemBuilder;
 
   const SelectorButton({
     Key? key,
@@ -32,6 +35,7 @@ class SelectorButton extends StatelessWidget {
     required this.onCountryChanged,
     required this.isEnabled,
     required this.isScrollControlled,
+    this.itemBuilder,
   }) : super(key: key);
 
   @override
@@ -41,7 +45,29 @@ class SelectorButton extends StatelessWidget {
             ? DropdownButtonHideUnderline(
                 child: DropdownButton<Country>(
                   key: Key(TestHelper.DropdownButtonKeyValue),
-                  hint: Item(
+                  hint: itemBuilder != null
+                      ? itemBuilder!.call(
+                          country ?? countries.first,
+                        )
+                      : Item(
+                          country: country,
+                          showFlag: selectorConfig.showFlags,
+                          useEmoji: selectorConfig.useEmoji,
+                          leadingPadding: selectorConfig.leadingPadding,
+                          trailingSpace: selectorConfig.trailingSpace,
+                          textStyle: selectorTextStyle,
+                          flagDecoration: selectorConfig.flagDecoration,
+                        ),
+                  value: country,
+                  items: mapCountryToDropdownItem(countries),
+                  onChanged: isEnabled ? onCountryChanged : null,
+                ),
+              )
+            : (itemBuilder != null
+                ? itemBuilder!.call(
+                    country ?? countries.first,
+                  )
+                : Item(
                     country: country,
                     showFlag: selectorConfig.showFlags,
                     useEmoji: selectorConfig.useEmoji,
@@ -49,21 +75,7 @@ class SelectorButton extends StatelessWidget {
                     trailingSpace: selectorConfig.trailingSpace,
                     textStyle: selectorTextStyle,
                     flagDecoration: selectorConfig.flagDecoration,
-                  ),
-                  value: country,
-                  items: mapCountryToDropdownItem(countries),
-                  onChanged: isEnabled ? onCountryChanged : null,
-                ),
-              )
-            : Item(
-                country: country,
-                showFlag: selectorConfig.showFlags,
-                useEmoji: selectorConfig.useEmoji,
-                leadingPadding: selectorConfig.leadingPadding,
-                trailingSpace: selectorConfig.trailingSpace,
-                textStyle: selectorTextStyle,
-                flagDecoration: selectorConfig.flagDecoration,
-              )
+                  ))
         : MaterialButton(
             key: Key(TestHelper.DropdownButtonKeyValue),
             padding: EdgeInsets.zero,
