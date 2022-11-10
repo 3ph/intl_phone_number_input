@@ -6,8 +6,6 @@ import 'package:intl_phone_number_input/src/widgets/countries_search_list_widget
 import 'package:intl_phone_number_input/src/widgets/input_widget.dart';
 import 'package:intl_phone_number_input/src/widgets/item.dart';
 
-typedef SelectorButtonItemBuilder = Widget Function(Country country);
-
 /// [SelectorButton]
 class SelectorButton extends StatelessWidget {
   final List<Country> countries;
@@ -45,29 +43,7 @@ class SelectorButton extends StatelessWidget {
             ? DropdownButtonHideUnderline(
                 child: DropdownButton<Country>(
                   key: Key(TestHelper.DropdownButtonKeyValue),
-                  hint: itemBuilder != null
-                      ? itemBuilder!.call(
-                          country ?? countries.first,
-                        )
-                      : Item(
-                          country: country,
-                          showFlag: selectorConfig.showFlags,
-                          useEmoji: selectorConfig.useEmoji,
-                          leadingPadding: selectorConfig.leadingPadding,
-                          trailingSpace: selectorConfig.trailingSpace,
-                          textStyle: selectorTextStyle,
-                          flagDecoration: selectorConfig.flagDecoration,
-                        ),
-                  value: country,
-                  items: mapCountryToDropdownItem(countries),
-                  onChanged: isEnabled ? onCountryChanged : null,
-                ),
-              )
-            : (itemBuilder != null
-                ? itemBuilder!.call(
-                    country ?? countries.first,
-                  )
-                : Item(
+                  hint: Item(
                     country: country,
                     showFlag: selectorConfig.showFlags,
                     useEmoji: selectorConfig.useEmoji,
@@ -75,7 +51,23 @@ class SelectorButton extends StatelessWidget {
                     trailingSpace: selectorConfig.trailingSpace,
                     textStyle: selectorTextStyle,
                     flagDecoration: selectorConfig.flagDecoration,
-                  ))
+                    itemBuilder: itemBuilder,
+                  ),
+                  value: country,
+                  items: mapCountryToDropdownItem(countries),
+                  onChanged: isEnabled ? onCountryChanged : null,
+                ),
+              )
+            : Item(
+                country: country,
+                showFlag: selectorConfig.showFlags,
+                useEmoji: selectorConfig.useEmoji,
+                leadingPadding: selectorConfig.leadingPadding,
+                trailingSpace: selectorConfig.trailingSpace,
+                textStyle: selectorTextStyle,
+                flagDecoration: selectorConfig.flagDecoration,
+                itemBuilder: itemBuilder,
+              )
         : MaterialButton(
             key: Key(TestHelper.DropdownButtonKeyValue),
             padding: EdgeInsets.zero,
@@ -107,6 +99,7 @@ class SelectorButton extends StatelessWidget {
                 trailingSpace: selectorConfig.trailingSpace,
                 textStyle: selectorTextStyle,
                 flagDecoration: selectorConfig.flagDecoration,
+                itemBuilder: itemBuilder,
               ),
             ),
           );
@@ -126,6 +119,7 @@ class SelectorButton extends StatelessWidget {
           textStyle: selectorTextStyle,
           withCountryNames: false,
           trailingSpace: selectorConfig.trailingSpace,
+          itemBuilder: itemBuilder,
         ),
       );
     }).toList();

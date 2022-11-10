@@ -416,6 +416,7 @@ class _InputWidgetView
                   isEnabled: widget.isEnabled,
                   autoFocusSearchField: widget.autoFocusSearch,
                   isScrollControlled: widget.countrySelectorScrollControlled,
+                  itemBuilder: widget.selectorButtonItemBuilder,
                 ),
                 SizedBox(
                   height: state.selectorButtonBottomPadding,
